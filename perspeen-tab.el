@@ -88,12 +88,10 @@ And return the created tab.
 
 If the optional BUFFER is not given or nil, using the *scratch* buffer.
 If using the *scratch* buffer, MARKER set 0."
-  (interactive)
   (let ((tab (make-symbol "perspeen-tab"))
-	(tabs (perspeen-tab-conf-tabs perspeen-tab-configurations))
-	(prev-tab (perspeen-tab-get-current-tab)))
+	(tabs (perspeen-tab-conf-tabs perspeen-tab-configurations)))
     (unless buffer
-      (unless (dolist (b (buffer-list) buffer)
+      (unless (dolist (b (perspeen-ws-struct-buffers perspeen-current-ws) buffer)
 		(when (string-prefix-p "*scratch*" (buffer-name b))
 		  (setq buffer b
 			marker 0)))
@@ -155,7 +153,7 @@ If using the *scratch* buffer, MARKER set 0."
         (prev-tab (perspeen-tab-get-current-tab)))
     (perspeen-tab-switch-to-tab tab)
     (delete-other-windows)
-    (when switch-to-tab
+    (unless switch-to-tab
       (perspeen-tab-switch-to-tab prev-tab))))
 
 (defun perspeen-tab-del ()

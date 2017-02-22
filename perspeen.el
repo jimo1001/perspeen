@@ -344,6 +344,11 @@ Optional argument FORCE-SAME-WINDOW force the same window."
     (unless (memq (get-buffer buf-or-name) (perspeen-ws-struct-buffers perspeen-current-ws))
       (push (get-buffer buf-or-name) (perspeen-ws-struct-buffers perspeen-current-ws)))))
 
+(defun perspeen-buffer-list (&optional frame)
+  "Advice of `buffer-list'."
+  (interactive)
+  (perspeen-ws-struct-buffers perspeen-current-ws))
+
 (defun perspeen-display-buffer (buffer-or-name &optional action frame)
   "Advice of display buffer, add it to the buffer list of current workspace.
 Argument BUFFER-OR-NAME buffer.
